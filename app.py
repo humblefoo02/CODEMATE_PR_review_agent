@@ -34,16 +34,31 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def load_config():
-    """Load configuration from config.yml"""
+    """Load configuration from config.yml or Streamlit secrets"""
+    config = {}
+
+    # 1. Try to read from config.yml (for local use)
     try:
         with open("config.yml", "r") as f:
-            return yaml.safe_load(f)
+            config = yaml.safe_load(f) or {}
     except FileNotFoundError:
-        st.error("❌ config.yml not found. Please create a config.yml file with your API keys.")
-        st.stop()
+        st.warning("⚠️ config.yml not found. Falling back to Streamlit secrets…")
     except yaml.YAMLError as e:
         st.error(f"❌ Error parsing config.yml: {e}")
         st.stop()
+
+    # 2. Override with Streamlit secrets if available
+    if "GITHUB_TOKEN" in st.secrets:
+        config.setdefault("github", {})["token"] = st.secrets["GITHUB_TOKEN"]
+    if "GITLAB_TOKEN" in st.secrets:
+        config.setdefault("gitlab", {})["token"] = st.secrets["GITLAB_TOKEN"]
+    if "BITBUCKET_USER" in st.secrets:
+        config.setdefault("bitbucket", {})["username"] = st.secrets["BITBUCKET_USER"]
+    if "BITBUCKET_PASS" in st.secrets:
+        config.setdefault("bitbucket", {})["password"] = st.secrets["BITBUCKET_PASS"]
+
+    return config
+
 
 def main():
     """Main Streamlit application"""

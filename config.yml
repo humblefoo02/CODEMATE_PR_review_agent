@@ -3,14 +3,12 @@ repo: "octocat/Hello-World"
 pr_id: 1
 
 github:
-  token: "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"
+  token: "${GITHUB_TOKEN}"
 
 gitlab:
   url: "https://gitlab.com"
-  token: "glpat-_lD7SYWxmzxX8kKYcd_TuW86MQp1OmkzY3N5Cw.01.1216r1cw0"
+  token: "${GITLAB_TOKEN}"
 
 bitbucket:
-  username: "Ayushi Mishra"
-  password: "@Ayushi20"
-
-
+  username: "${BITBUCKET_USER}"
+  password: "${BITBUCKET_PASS}"
