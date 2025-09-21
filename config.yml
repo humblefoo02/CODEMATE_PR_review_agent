@@ -3,7 +3,7 @@ repo: "octocat/Hello-World"
 pr_id: 1
 
 github:
-  token: "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"
+  token: "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"
 
 gitlab:
   url: "https://gitlab.com"
