@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  pr-review-agent:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./config.yml:/app/config.yml
+      - ./logs:/app/logs
+    command: streamlit run demo/streamlit_demo.py --server.port=8501 --server.address=0.0.0.0
+    restart: unless-stopped
+
+volumes:
+  redis_data:
