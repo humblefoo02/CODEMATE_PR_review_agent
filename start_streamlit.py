@@ -23,7 +23,7 @@ repo: "owner/repository"
 pr_id: 1
 
 github:
-  token: "your_github_token_here"
+  token: "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"
 
 gitlab:
   url: "https://gitlab.com"

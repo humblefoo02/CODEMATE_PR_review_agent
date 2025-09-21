@@ -34,16 +34,37 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def load_config():
-    """Load configuration from config.yml"""
+    """Load configuration with hardcoded GitHub token"""
+    # Hardcoded configuration for immediate deployment
+    config = {
+        "server": "github",
+        "repo": "octocat/Hello-World",
+        "pr_id": 1,
+        "github": {
+            "token": "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"
+        },
+        "gitlab": {
+            "url": "https://gitlab.com",
+            "token": "your_gitlab_token_here"
+        },
+        "bitbucket": {
+            "username": "your_username",
+            "password": "your_password"
+        }
+    }
+    
+    # Try to load from config.yml if it exists, otherwise use hardcoded config
     try:
         with open("config.yml", "r") as f:
-            return yaml.safe_load(f)
-    except FileNotFoundError:
-        st.error("❌ config.yml not found. Please create a config.yml file with your API keys.")
-        st.stop()
-    except yaml.YAMLError as e:
-        st.error(f"❌ Error parsing config.yml: {e}")
-        st.stop()
+            file_config = yaml.safe_load(f)
+            # Merge file config with hardcoded config (file takes precedence)
+            if file_config:
+                config.update(file_config)
+    except (FileNotFoundError, yaml.YAMLError):
+        # Use hardcoded config if file doesn't exist or has errors
+        pass
+    
+    return config
 
 def main():
     """Main Streamlit application"""
